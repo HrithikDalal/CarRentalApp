@@ -1,68 +1,68 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# CarRentalApp (BookCar)
 
-## Available Scripts
+> ⚠️ **Not actively maintained.** This is a portfolio/learning project from 2020–2023. It was fully modernized in August 2026 (dependencies current, 0 known vulnerabilities at that time), but it receives no ongoing maintenance or support.
 
-In the project directory, you can run:
+React front end for **BookCar**, a car rental service — register, build a renter profile (driving licence/ID), browse the fleet, and book cars. Talks to the [CarRentalAPI](https://github.com/HrithikDalal/CarRentalAPI) REST backend.
 
-### `npm start`
+![React](https://img.shields.io/badge/React-18-61dafb) ![Vite](https://img.shields.io/badge/Vite-6-646cff) ![Router](https://img.shields.io/badge/React_Router-7-CA4245) ![Maintenance](https://img.shields.io/badge/maintained-no-red)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Features
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- JWT auth flow (register/login) with token persisted in localStorage and sent via `x-auth-token`
+- Private routing — unauthenticated users are redirected to login
+- Renter profile create/edit, profile browsing
+- Redux state (auth, profile, alerts) with flash-style alert system
+- SCSS-sourced styling (compiled CSS in `src/CSS/`, sources in `src/SCSS/`)
 
-### `npm test`
+## Tech stack
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Layer | Choice |
+| --- | --- |
+| Build tool | Vite 6 |
+| UI | React 18 |
+| Routing | React Router 7 (declarative mode) |
+| State | Redux Toolkit (`configureStore`) with classic action/reducer files |
+| HTTP | axios 1.x, dev-proxied `/api` → `localhost:5000` |
 
-### `npm run build`
+## Project structure
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+├── index.html                  # Vite entry
+├── vite.config.js              # dev proxy /api -> http://localhost:5000
+└── src/
+    ├── main.jsx                # React 18 createRoot bootstrap
+    ├── App.jsx                 # router shell
+    ├── store.js                # Redux Toolkit configureStore
+    ├── actions/ reducers/      # auth, profile, alert
+    ├── utils/setAuthToken.js   # axios default header helper
+    └── components/
+        ├── auth/               # Login, Register
+        ├── dashboard/          # user dashboard
+        ├── profile/            # view/edit profile, ProfileForm
+        ├── allProfiles/        # browse profiles
+        ├── layout/             # Navbar, Landing, Alert, Spinner, NotFound
+        └── routing/            # AppRoutes, PrivateRoute
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Getting started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Start the [CarRentalAPI](https://github.com/HrithikDalal/CarRentalAPI) backend on port 5000 (needs MongoDB).
+2. Run the client:
 
-### `npm run eject`
+   ```bash
+   npm install
+   npm run dev        # http://localhost:3000
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Scripts
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Dev server with HMR on port 3000 |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Serve the production build locally |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## History
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- **2020** — built as a learning project (Create React App, React 16, react-router 5, plain redux).
+- **2026-08** — modernized: CRA → Vite, React 16 → 18, React Router 5 → 7, redux/thunk → Redux Toolkit; all 219 `npm audit` vulnerabilities eliminated. Fixed a latent route-param bug (`/profile/:_id` vs `params.id`) that broke the profile detail page.

@@ -31,7 +31,7 @@ export const getProfiles = () => async dispatch => {
   dispatch({ type: CLEAR_PROFILE });
 
   try {
-    const res = await axios.get('api/profile');
+    const res = await axios.get('/api/profile');
 
     dispatch({
       type: GET_PROFILES,
@@ -67,7 +67,7 @@ export const getProfileById = userId => async dispatch => {
 // Create or update profile
 export const createProfile = (
   formData,
-  history,
+  navigate,
   edit = false
 ) => async dispatch => {
   try {
@@ -86,7 +86,7 @@ export const createProfile = (
     dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
     if (!edit) {
-      history.push('/dashboard');
+      navigate('/dashboard');
     }
   } catch (err) {
     const errors = err.response.data.errors;
@@ -106,7 +106,7 @@ export const createProfile = (
 export const deleteAccount = () => async dispatch => {
   if (window.confirm('Are you sure? This can NOT be undone!')) {
     try {
-      await axios.delete('api/profile');
+      await axios.delete('/api/profile');
 
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED });
