@@ -1,9 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
-import Routes from './components/routing/Routes';
-// import './CSS/App.css';
+import AppRoutes from './components/routing/AppRoutes';
 import './CSS/style.css';
 
 //Redux
@@ -18,19 +17,18 @@ const App = () => {
     store.dispatch(loadUser());
   }, []);
   return (
-    <Provider store ={store}>
+    <Provider store={store}>
       <Router>
         <Fragment>
           <Navbar />
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route component={Routes} />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/*" element={<AppRoutes />} />
+          </Routes>
         </Fragment>
       </Router>
     </Provider>
-    
   );
-}
+};
 
 export default App;
